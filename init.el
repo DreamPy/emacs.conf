@@ -1,5 +1,49 @@
 (setq inhibit-startup-message t)
 (tool-bar-mode -1)
+(setq-default  use-dialog-box nil)
+(setq frame-title-format "%b  [%I] %f  GNU/Emacs" )
+(setq visible-bell t)
+(setq  ring-bell-function 'ignore)
+(electric-pair-mode t)
+(require 'menu-bar)
+(menu-bar-mode nil)
+(require 'tool-bar)
+(tool-bar-mode nil)
+(require 'scroll-bar)
+(scroll-bar-mode nil)
+(setq mouse-yank-at-point t)
+(setq kill-ring-max 200)
+(setq kill-do-not-save-duplicates t);不向kill-ring中加入重复内容
+(setq-default indent-tabs-mode nil)
+(setq kill-whole-line t);在行首 C-k 时，同时删除末尾换行符
+;;我写的一个函数,如果有选中区域,则kill选区,否则删除当前行
+;;注意当前行并不代表整行,它只删除光标到行尾的内容,也就是默认情况下
+;;C-k 所具有的功能
+;; C-w kill-region 这个按键可以省下来，此改进版 包含了kill-region 功能
+;; 你可以把C-w 绑定到其他命令上去
+(defun joseph-kill-region-or-line(&optional arg)
+  "this function is a wrapper of (kill-line).
+        When called interactively with no active region, this function
+       will call (kill-line) ,else kill the region."
+  (interactive "P")
+  (if mark-active
+      (if (= (region-beginning) (region-end) ) (kill-line arg)
+        (kill-region (region-beginning) (region-end)))
+    (kill-line arg)))
+(global-set-key (kbd "C-k") 'joseph-kill-region-or-line)
+(delete-selection-mode 1) ;;当选中内容时，输入新内容则会替换掉,启用delete-selection-mode
+;; 把缺省的 major mode 设置为 text-mode, 而不是几乎什么功能也 没有的 fundamental-mode.
+(setq default-major-mode 'text-mode)
+;;; 关于没有选中区域,则默认为选中整行的advice
+;;;;默认情况下M-w复制一个区域，但是如果没有区域被选中，则复制当前行
+(defadvice kill-ring-save (before slickcopy activate compile)
+  "When called interactively with no active region, copy a single line instead."
+  (interactive
+   (if mark-active (list (region-beginning) (region-end))
+     (message "已选中当前行!")
+     (list (line-beginning-position)
+           (line-beginning-position 2)))))
+;;-------------------------------------------------------------------------
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -252,37 +296,6 @@
     (add-to-list 'company-backends 'company-go)))
 
 
-;;=====last=====================
-;;;;;;;;;;;;;;;;lisp-mode
-;; (use-package lisp-mode
-;;   :config
-;;   (use-package elisp-slime-nav
-;;     :ensure t
-;;     :commands elisp-slime-nav-mode)
-;;   (use-package macrostep
-;;     :ensure t
-;;     :bind ("C-c e" . macrostep-expand))
-
-;;   (use-package slime
-;;     :ensure t
-;;     :commands (slime slime-lisp-mode-hook)
-;;     :config
-;;     (add-to-list 'slime-contribs 'slime-fancy)
-
-;;     (slime-setup)
-;;     (add-hook 'slime-repl-mode-hook #'smartparens-strict-mode))
-
-;;   (add-hook 'emacs-lisp-mode-hook #'smartparens-strict-mode)
-;;   (add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
-;;   (add-hook 'emacs-lisp-mode-hook #'elisp-slime-nav-mode)
-;;   (add-hook 'ielm-mode-hook #'elisp-slime-nav-mode)
-;;   (add-hook 'ielm-mode-hook #'turn-on-eldoc-mode)
-;;   (add-hook 'lisp-interaction-mode-hook #'turn-on-eldoc-mode)
-
-;;   (add-hook 'lisp-mode-hook #'smartparens-strict-mode)
-;;   (add-hook 'lisp-mode-hook #'slime-lisp-mode-hook)
-
-;;   (setq inferior-lisp-program "sbcl --dynamic-space-size 1024"))
 
 
 ;;=========================================
@@ -303,20 +316,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
-;;==============================test ========================
- ;;;;;;;;;;;;;;;;;;;;;;;company;;;;;;;;;;;;;;;;;;  
-  (add-hook 'after-init-hook #'global-company-mode)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;flycheck;;;;;;;;;;;;;;;;  
-  ;;(add-hook 'after-init-hook #'global-flycheck-mode)  
-  ;;;;;;;;;;;;;;;;;;;emacs-ycmd;;;;;;;;;;;;;;;;;;;  
-  (require 'ycmd)  
-  (add-hook 'after-init-hook #'global-ycmd-mode)  
-  ;;(ycmd-force-semantic-completion t)  
-  ;; (ycmd-global-config nil)
-  (set-variable 'ycmd-server-command '("python" "/home/lixu/ycmd/ycmd"))
-;;(set-variable 'ycmd-global-config "/home/lixu/ycmd/.ycm_extra_conf.py.1")  
-  (require 'company-ycmd)  
-  (company-ycmd-setup)  
-  (require 'flycheck-ycmd)  
-  (flycheck-ycmd-setup) 
-  
+(use-package ensime
+  :ensure t
+)
+(put 'upcase-region 'disabled nil)
