@@ -1,16 +1,19 @@
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+;(package-initialize) ;; You might already have this line
 (setq inhibit-startup-message t)
-(tool-bar-mode -1)
+;(tool-bar-mode -1)
 (setq-default  use-dialog-box nil)
 (setq frame-title-format "%b  [%I] %f  GNU/Emacs" )
 (setq visible-bell t)
 (setq  ring-bell-function 'ignore)
 (electric-pair-mode t)
-(require 'menu-bar)
-(menu-bar-mode nil)
-(require 'tool-bar)
-(tool-bar-mode nil)
+;(require 'menu-bar)
+(menu-bar-mode 0)
+;(require 'tool-bar)
+(tool-bar-mode 0)
 (require 'scroll-bar)
-(scroll-bar-mode nil)
+(scroll-bar-mode 0)
 (setq mouse-yank-at-point t)
 (setq kill-ring-max 200)
 (setq kill-do-not-save-duplicates t);不向kill-ring中加入重复内容
@@ -46,10 +49,11 @@
 ;;-------------------------------------------------------------------------
 
 (require 'package)
-(setq package-enable-at-startup nil)
+;;(require 'use-package)
+;;(setq package-enable-at-startup nil)
 
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
+;; (add-to-list 'package-archives
+;; 	     '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
 ;; bootstrap "use-package"
@@ -105,11 +109,11 @@
     (global-set-key [remap other-window] 'ace-window)
     (custom-set-faces
      '(aw-leading-char-face
-       ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+       ((t (:inherit ace-jump-face-foreground :height 3.0)))))
     ))
 ;;
 (winner-mode 1)
-;;Which will allow you to use C-c left or right to move through past window configurations 
+;;Which will allow you to use C-c left or right to move through past window configurations
 ;;
 					;=================================================
 ;;search swiper
@@ -267,7 +271,7 @@
   :config
   (add-to-list 'sml/replacer-regexp-list '("^~/workspace/" ":WS:") t))
 ;;========================
-(use-package company               
+(use-package company
   :ensure t
   :defer t
   :init (global-company-mode -1)
@@ -309,7 +313,7 @@
     ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(package-selected-packages
    (quote
-    (neotree haskell-mode smart-mode-line elpy smartparens ein zenburn-theme auto-complete counsel ace-window tabbar which-key try use-package))))
+    (ensime neotree haskell-mode smart-mode-line elpy smartparens ein zenburn-theme auto-complete counsel ace-window tabbar which-key try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
