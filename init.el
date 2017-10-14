@@ -2,18 +2,24 @@
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;(package-initialize) ;; You might already have this line
 (setq inhibit-startup-message t)
+<<<<<<< HEAD
+=======
 ;(tool-bar-mode -1)
+>>>>>>> dc81ee467a033cb299426da35687bedee603de58
 (setq-default  use-dialog-box nil)
 (setq frame-title-format "%b  [%I] %f  GNU/Emacs" )
 (setq visible-bell t)
 (setq  ring-bell-function 'ignore)
 (electric-pair-mode t)
+<<<<<<< HEAD
+=======
 ;(require 'menu-bar)
 (menu-bar-mode 0)
 ;(require 'tool-bar)
 (tool-bar-mode 0)
 (require 'scroll-bar)
 (scroll-bar-mode 0)
+>>>>>>> dc81ee467a033cb299426da35687bedee603de58
 (setq mouse-yank-at-point t)
 (setq kill-ring-max 200)
 (setq kill-do-not-save-duplicates t);不向kill-ring中加入重复内容
@@ -238,13 +244,6 @@
   :init
     (yas-global-mode 1))
 ;;=================================
-(defvar myPackages
-  '(better-defaults
-    ein ;; add the ein package (Emacs ipython notebook)
-    py-autopep8))
-(setq ein:use-auto-complete t)
-;; Or, to enable "superpack" (a little bit hacky improvements):
-;; (setq ein:use-auto-complete-superpack t)
 
 
 ;;;===========================
@@ -274,7 +273,7 @@
 (use-package company
   :ensure t
   :defer t
-  :init (global-company-mode -1)
+  :init (global-company-mode t)
   :config
   (progn
     ;; Use Company for completion
@@ -298,29 +297,52 @@
   :init
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-go)))
+;;========================================
+(global-company-mode t); 全局开启
+(setq company-idle-delay 0.2;菜单延迟
+      company-minimum-prefix-length 1; 开始补全字数
+      company-require-match nil company-dabbrev-ignore-case nil company-dabbrev-downcase nil company-show-numbers t; 显示序号
+      company-transformers '(company-sort-by-backend-importance) company-continue-commands '(not helm-dabbrev) ) ; 补全后端使用anaconda
+(add-to-list 'company-backends '(company-anaconda :with company-yasnippet)) ; 补全快捷键
+(global-set-key (kbd "<C-tab>") 'company-complete) ; 补全菜单选项快捷键
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+;; 在python模式中自动启用
+(add-hook 'python-mode-hook 'anaconda-mode)
+
 
 
 
 
 ;;=========================================
+
+(display-time-mode 1) ;; 常显
+(setq display-time-24hr-format t) ;;格式
+(setq display-time-day-and-date t) ;;显示时间、星期、日期
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+
+(global-hl-line-mode 1)
+;;======
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default)))
  '(package-selected-packages
    (quote
+<<<<<<< HEAD
+    (py-autopep8 anaconda-mode ein zenburn-theme which-key use-package try smartparens smart-mode-line org-bullets flycheck ensime elpy counsel company-quickhelp company-go ace-window)))
+ '(scroll-bar-mode nil)
+ '(tooltip-mode nil))
+=======
     (ensime neotree haskell-mode smart-mode-line elpy smartparens ein zenburn-theme auto-complete counsel ace-window tabbar which-key try use-package))))
+>>>>>>> dc81ee467a033cb299426da35687bedee603de58
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
-(use-package ensime
-  :ensure t
-)
-(put 'upcase-region 'disabled nil)
