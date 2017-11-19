@@ -2,24 +2,20 @@
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;(package-initialize) ;; You might already have this line
 (setq inhibit-startup-message t)
-<<<<<<< HEAD
-=======
-;(tool-bar-mode -1)
->>>>>>> dc81ee467a033cb299426da35687bedee603de58
+
 (setq-default  use-dialog-box nil)
 (setq frame-title-format "%b  [%I] %f  GNU/Emacs" )
 (setq visible-bell t)
 (setq  ring-bell-function 'ignore)
 (electric-pair-mode t)
-<<<<<<< HEAD
-=======
+
 ;(require 'menu-bar)
 (menu-bar-mode 0)
 ;(require 'tool-bar)
 (tool-bar-mode 0)
 (require 'scroll-bar)
 (scroll-bar-mode 0)
->>>>>>> dc81ee467a033cb299426da35687bedee603de58
+
 (setq mouse-yank-at-point t)
 (setq kill-ring-max 200)
 (setq kill-do-not-save-duplicates t);不向kill-ring中加入重复内容
@@ -326,23 +322,3 @@
 
 (global-hl-line-mode 1)
 ;;======
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-<<<<<<< HEAD
-    (py-autopep8 anaconda-mode ein zenburn-theme which-key use-package try smartparens smart-mode-line org-bullets flycheck ensime elpy counsel company-quickhelp company-go ace-window)))
- '(scroll-bar-mode nil)
- '(tooltip-mode nil))
-=======
-    (ensime neotree haskell-mode smart-mode-line elpy smartparens ein zenburn-theme auto-complete counsel ace-window tabbar which-key try use-package))))
->>>>>>> dc81ee467a033cb299426da35687bedee603de58
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
